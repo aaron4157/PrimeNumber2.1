@@ -1,0 +1,10 @@
+/.settings/
+/build/
+/nbproject/
+/test/
+# enviroment-specific data
+/.classpath
+/.project
+# user data
+/PrimeList.txt
+/src/idv/aaron4157/lab/
