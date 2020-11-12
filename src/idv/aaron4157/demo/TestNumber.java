@@ -2,34 +2,42 @@ package idv.aaron4157.demo;
 
 import java.io.IOException;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 
-import idv.aaron4157.utility.Cheetor;
-import idv.aaron4157.utility.NumberEntity;
-import idv.aaron4157.utility.OptimusPrime;
+import idv.aaron4157.maximals.NumberEntity;
+import idv.aaron4157.maximals.OptimusPrime;
+import idv.aaron4157.maximals.Rattrap;
 
 public class TestNumber {
 
 	public static void main(String[] args) {
-		// ¹ê§@¤@­Ó¯À¼Æ¾÷(OptimusPrime)ª«¥ó
+		OptimusPrime autobot = null;
+		HashMap<String, int[]> gList;
 		try {
-			OptimusPrime autobot = new OptimusPrime();
-			NumberEntity a1 = autobot.analyzeNumber(68);
-			System.out.println(a1.getValue()); 
-			System.out.println(a1.getComposition()); 
-			System.out.println(a1.getFactorSum()); 
-			autobot.close();
+			autobot = new OptimusPrime();
 			
-			//¹ê§@¤@­Ó±À½×(Cheetor)ª«¥ó
-			Cheetor aotobot2=new Cheetor();
-			List<Integer> list1 = aotobot2.listFactors(a1);
-			list1.sort(Comparator.naturalOrder()) ;
-			System.out.println(list1);
-
+			gList = autobot.listGoldBach(78);
+			//System.out.println(autobot.listGoldBach(78));
+			gList.forEach((key,elem) -> System.out.println(key+": "+elem[0]+","+elem[1]));			
+			
 		} catch (IOException e) {
-			// «Ø¥ßÀÉ®×¹J¨ì°İÃD
-			System.out.println(e.getMessage());
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+
+		//ä¾è³´æ³¨å…¥çš„å¯¦ä¾‹
+		Rattrap autobot2 = new Rattrap(autobot);
+		//ç”¢ç”Ÿè‡ªç„¶æ•¸çš„è³‡æ–™ç‰©ä»¶ æŸ¥çœ‹çµæœ
+		NumberEntity a1 = autobot2.analyzeNumber(79);
+		System.out.println(a1.getValue()); 
+		System.out.println(a1.getComposition()); 
+		System.out.println(a1.getFactorSum()); 
+		List<Integer> list1 = autobot2.listFactors(a1);
+		list1.sort(Comparator.naturalOrder());
+		System.out.println(list1);
+		
+		autobot.close();
 		
 
 	}

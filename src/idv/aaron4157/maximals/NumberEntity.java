@@ -1,4 +1,4 @@
-package idv.aaron4157.utility;
+package idv.aaron4157.maximals;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -7,18 +7,18 @@ import java.util.List;
 public class NumberEntity implements Serializable {
 
 	/**
-	 * Description: ¹ï©ó¤@­Ó¦ÛµM¼Æªº¤ÀªRµ²ªG¥´¥]
-	 * Fileds: ¤@­Ó¾ã¼Æªº­È¡B¯À¦]¼Æ¤À¸Ñ¦¡¡B¥þ¦]¼Æ©M
-	 * Constaints: setters «Ê¸Ë ¤£¯à¦b idv.aaron4157.utility ¥H¥~³Q½Õ¥Î
+	 * Description: ï¿½ï¿½ï¿½@ï¿½Ó¦ÛµMï¿½Æªï¿½ï¿½ï¿½ï¿½Rï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½]
+	 * Fileds: ï¿½@ï¿½Ó¾ï¿½Æªï¿½ï¿½È¡Bï¿½ï¿½ï¿½]ï¿½Æ¤ï¿½ï¿½Ñ¦ï¿½ï¿½Bï¿½ï¿½ï¿½]ï¿½Æ©M
+	 * Constaints: setters ï¿½Ê¸ï¿½ ï¿½ï¿½ï¿½ï¿½b idv.aaron4157.maximals ï¿½Hï¿½~ï¿½Qï¿½Õ¥ï¿½
 	 */
 	private static final long serialVersionUID = 4157L;
 
 	public NumberEntity() {
-		// JAVA Bean »Ý­nªÅ°Ñ¼Æ«Øºc¤l
+		// JAVA Bean ï¿½Ý­nï¿½Å°Ñ¼Æ«Øºcï¿½l
 	}
-	private int value; //¥D­È
-	private List<Integer> composition = new ArrayList<>(); //¯À¦]¼Æªí
-	private int factorSum; //¥þ¦]¼Æ©M
+	private int value; //ï¿½Dï¿½ï¿½
+	private List<Integer> composition = new ArrayList<>(); //ï¿½ï¿½ï¿½]ï¿½Æªï¿½
+	private int factorSum; //ï¿½ï¿½ï¿½]ï¿½Æ©M
 
 	public int getFactorSum() {
 		return factorSum;

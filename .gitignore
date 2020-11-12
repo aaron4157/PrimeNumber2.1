@@ -5,6 +5,7 @@
 # enviroment-specific data
 /.classpath
 /.project
+/lib
 # user data
 /PrimeList.txt
 /src/idv/aaron4157/lab/
