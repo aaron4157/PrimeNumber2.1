@@ -36,9 +36,9 @@ public class Rattrap {
 		return testNumber.getComposition().isEmpty();		
 	}
 	/**
-	 *  Test if the number entity represents a Mason prime number = 2^n -1
+	 *  Test if the number entity represents a Mersennes prime number = 2^n -1
 	 * */
-	public static boolean inferMasonPrime(NumberEntity testNumber) {
+	public static boolean inferMersennesPrime(NumberEntity testNumber) {
 		int test = 0;
 		int n = 0;
 		
