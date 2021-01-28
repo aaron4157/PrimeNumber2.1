@@ -29,15 +29,15 @@ public class OptimusPrime {
 
 	public OptimusPrime() throws IOException {
 		if(!ppath.toFile().exists()) {
-			mkFile(100000);	
+			mkFile(104730);	
 		}
 		pCache = loadBuffer(1024);
 		System.out.println("Initialized.");
 	}
 	/**
-	 * CORE: Generate a prime list >~ given upper bound 
+	 * CORE: Generate a prime list ~ given upper bound 
 	 * */
-    private void mkFile(int upper) throws IOException{
+    void mkFile(int upper) throws IOException{
 
     	List<Integer> primeList = new ArrayList<>();
         //start integer scan, deposit the primes
