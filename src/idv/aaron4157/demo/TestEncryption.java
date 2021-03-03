@@ -34,7 +34,7 @@ public class TestEncryption {
 		 
 		
 		//Only English is allowed for example key		
-		String encrypted = autobot1.enctypt("Hello world!!"); //輸出祕文
+		String encrypted = autobot1.enctypt("玄之又玄 ，眾妙之門"); //輸出祕文
 		System.out.println(encrypted); autobot1.decrypt(encrypted);//主控台輸出還原的明文				 
 		  
 	}

@@ -1,6 +1,8 @@
 package idv.aaron4157.maximals;
 
+import java.io.UnsupportedEncodingException;
 import java.security.SecureRandom;
+import java.util.Base64;
 import java.util.Random;
 import java.util.stream.IntStream;
 
@@ -68,8 +70,17 @@ public class Rhinox {
 		cheetor = new StringBuilder();
 		int main = this.getPublicKey()[0];
 		int idx = this.getPublicKey()[1];
+		byte[] msgBytes;
+		try {
+			msgBytes = msg.getBytes("UTF-8");
+		} catch (UnsupportedEncodingException e1) {
+//			e1.printStackTrace();
+			msgBytes = new byte[] {};
+		}
 		ModConvertor dinobot = new ModConvertor(main, idx);
 		
+		msg = Base64.getEncoder().encodeToString(msgBytes);
+		System.out.println("base64: "+msg);
 		msg.chars().map(dinobot::calculate).forEach(e -> cheetor.append((char)e)); 
 		return cheetor.toString();		
 	}
@@ -78,11 +89,20 @@ public class Rhinox {
 		cheetor = new StringBuilder();
 		int main = this.privateKey[0];
 		int idx = this.privateKey[1];
+		byte[] msgBytes;		
 		ModConvertor dinobot = new ModConvertor(main, idx);
 		
 		msg.chars().map(dinobot::calculate).forEach(e -> cheetor.append((char)e));
 		
+				
 		String recovered = cheetor.toString();
+		try {
+			msgBytes = recovered.getBytes();
+			recovered = new String( Base64.getDecoder().decode(msgBytes), "UTF-8");
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			recovered = "decode failed under this charset";
+		}
 		
 		System.out.println(recovered);
 	}
