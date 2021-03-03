@@ -156,7 +156,7 @@ public class OptimusPrime {
         input.remove((input.indexOf(1)));//recover after use the reference
         
         
-		chkInput2 = input.stream().distinct().reduce((a,b) -> a *= b).get();
+		chkInput2 = input.stream().reduce((a,b) -> a *= b).get();
 		
         System.out.println("Validation: : "+chkInput1 +" vs."+chkInput2 );
         
