@@ -127,7 +127,7 @@ public class OptimusPrime {
         return factorList;
     }
 	
-    public int perfectness(List<Integer> input){
+    public int factorSum(List<Integer> input){
     	if(input.isEmpty()) return 1; //happens when x is prime number
     	
         input.add(1); //last element dosn't enter iteration
@@ -160,7 +160,7 @@ public class OptimusPrime {
 		
         System.out.println("Validation: : "+chkInput1 +" vs."+chkInput2 );
         
-        return total;        
+        return total  - chkInput1;        
     }
     
     

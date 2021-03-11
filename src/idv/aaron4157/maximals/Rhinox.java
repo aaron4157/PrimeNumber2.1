@@ -77,7 +77,7 @@ public class Rhinox {
 //			e1.printStackTrace();
 			msgBytes = new byte[] {};
 		}
-		ModConvertor dinobot = new ModConvertor(main, idx);
+		PowerMod dinobot = new PowerMod(main, idx);
 		
 		msg = Base64.getEncoder().encodeToString(msgBytes);
 		System.out.println("base64: "+msg);
@@ -90,7 +90,7 @@ public class Rhinox {
 		int main = this.privateKey[0];
 		int idx = this.privateKey[1];
 		byte[] msgBytes;		
-		ModConvertor dinobot = new ModConvertor(main, idx);
+		PowerMod dinobot = new PowerMod(main, idx);
 		
 		msg.chars().map(dinobot::calculate).forEach(e -> cheetor.append((char)e));
 		
@@ -123,7 +123,7 @@ public class Rhinox {
 	 * 
 	 * return (int) (temp % main); }
 	 */	
-	class ModConvertor{
+	class PowerMod{
 		private int main;
 		private String idx;
 		
@@ -131,7 +131,7 @@ public class Rhinox {
 		private double temp;
 
 		
-		ModConvertor(int main, int idx) {
+		PowerMod(int main, int idx) {
 			super();
 			this.main = main;
 			this.idx = new StringBuilder(Integer.toBinaryString(idx))
