@@ -1,6 +1,7 @@
 package idv.aaron4157.maximals;
 
 import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Base64;
 import java.util.Random;
@@ -107,28 +108,13 @@ public class Rhinox {
 		System.out.println(recovered);
 	}
 	
-	/*
-	 * private int algorithmA(int main, int idx, int code) { 
-	 * issue: pow(code, idx) -> Long.MAX (saturate)
-	 * long temp = Math.floorMod((long)Math.pow(code, idx), main); 
-	 * return (int)temp; 
-	 * 
-	 * char[] invByteCode = new StringBuilder(Integer.toBinaryString(idx)).reverse().toString().toCharArray();
-	 * 
-	 * int factor = code % main; double temp = 1; int top = (int) (main - Math.sqrt(main)); 
-	 * for(char i : invByteCode) { 
-	 * 	if(i == '1') temp *= factor;
-	 * 	factor = factor * factor % main;
-	 * }
-	 * 
-	 * return (int) (temp % main); }
-	 */	
+	
 	class PowerMod{
 		private int main;
 		private String idx;
 		
 		private int factor;
-		private double temp;
+		private BigInteger temp;
 
 		
 		PowerMod(int main, int idx) {
@@ -140,19 +126,25 @@ public class Rhinox {
 		}				
 		
 		int calculate(int code) {
-			this.temp = 1;//reset before use!!
+			this.temp = new BigInteger("1");//reset before use!!
 			this.factor = code % main;
 			
 			idx.chars().forEach(this::stacking);//refresh temp
 			
-			return (int) (temp % main);
+//			return (int) (temp % main); 
+			BigInteger mainBig = new BigInteger(String.valueOf(main));
+			return temp.mod(mainBig).intValue();
 		}
 		
 		void stacking(int e) {
-			if(e == '1') temp *= factor; 
+//			if(e == '1') temp *= factor; 
+			if(e == '1') temp = temp.multiply(new BigInteger(String.valueOf(factor)));
+			
 			if(factor > main/2) factor = main - factor; //reduce memory load
 		    factor = (factor * factor) % main;
 		}
+		
+		
 	}
 	
 }
