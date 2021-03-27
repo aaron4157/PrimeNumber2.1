@@ -1,7 +1,13 @@
 package idv.aaron4157.maximals;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
+
+import idv.aaron4157.maximals.Rhinox.PowerMod;
 /**
  * This class needs DI from Optimus Prime
  * functions: instantiate NumberEntity;
@@ -9,6 +15,8 @@ import java.util.List;
  */
 public class Rattrap {
 	private OptimusPrime commander;
+	private Random generator = new SecureRandom(); //RECOMMANDED random generator
+	private Rhinox rhinox = new Rhinox(commander);
 	private List<Integer> pFactors=null;
 	private List<Integer> allFactors=null;
 	
@@ -24,31 +32,28 @@ public class Rattrap {
 		numbean.setValue(a);
 		pFactors = commander.factorize(a);
 		numbean.setComposition(pFactors);
-		int fSum = commander.perfectness(pFactors);
+		int fSum = commander.factorSum(pFactors);
 		numbean.setFactorSum(fSum);		
 		return numbean;
 		
 	}
 	/**
-	 * Test if the number entity represents a prime number
+	 * tells whether a number entity represents a prime number
 	 * */
 	public boolean inferPrime(NumberEntity testNumber) {
 		return testNumber.getComposition().isEmpty();		
 	}
 	/**
-	 *  Test if the number entity represents a Mersennes prime number = 2^n -1
+	 *  Test if the number represents a Mersennes prime number = 2^n -1
 	 * */
-	public static boolean inferMersennesPrime(NumberEntity testNumber) {
-		int test = 0;
-		int n = 0;
-		
-		while(testNumber.getComposition().isEmpty() && test <= testNumber.getValue()) {
-			test = (int) (Math.pow(2, n) -1);
-			if(test == testNumber.getValue()) return true;
-			else n++;
-		}
-		return false;
-	}
+	/*
+	 * public static boolean inferMersennesPrime(NumberEntity testNumber) { int test
+	 * = 0; int n = 0;
+	 * 
+	 * while(testNumber.getComposition().isEmpty() && test <= testNumber.getValue())
+	 * { test = (int) (Math.pow(2, n) -1); if(test == testNumber.getValue()) return
+	 * true; else n++; } return false; }
+	 */
 	/**
 	 * judge whether a number entity represents a perfect number
 	 * */
@@ -89,7 +94,35 @@ public class Rattrap {
 		f(m, i+1);
 		return;			
 	}
-	
+	/**
+	 * tells whether a number is prime, based on Fermat prime test
+	 * */
+	public Map<Integer, Boolean> prpTest(int n) {
+		Map<Integer, Boolean> output = new HashMap<>();		
+		int a = 0;
+		int result;
+		while(a<=1) {
+			a = generator.nextInt(n-1);
+		}
+		
+		PowerMod dinobot = rhinox.new PowerMod(n, n-1);
+		result = dinobot.calculate(a);
+		System.out.println(a +"-PRP test: "+ result);
+		output.put(a, result == 1);
+		return output; 		
+	}
+	/**
+	 * list all Mersennes primes under 100,000,000,000,
+	 * which contains 8 elements!
+	 * */
+	public void listMersennesPrime() {
+		//1.choose q from prime list
+		//2.pick a ≡ 1 mod 2q from prime list to temp list
+		//3.pick a ≡ ±1 mod 8 from prime list to temp list
+		//4.try factorizing (2^q -1) with the temp list
+		//5.persistence
+		//6.if there is file, read it
+	}
 
 	
 }

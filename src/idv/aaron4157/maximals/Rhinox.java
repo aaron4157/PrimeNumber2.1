@@ -3,7 +3,10 @@ package idv.aaron4157.maximals;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
+import java.util.OptionalLong;
 import java.util.Random;
 import java.util.stream.IntStream;
 
@@ -93,8 +96,7 @@ public class Rhinox {
 		byte[] msgBytes;		
 		PowerMod dinobot = new PowerMod(main, idx);
 		
-		msg.chars().map(dinobot::calculate).forEach(e -> cheetor.append((char)e));
-		
+		msg.chars().map(dinobot::calculate).forEach(e -> cheetor.append((char)e));	
 				
 		String recovered = cheetor.toString();
 		try {
@@ -114,8 +116,9 @@ public class Rhinox {
 		private String idx;
 		
 		private int factor;
-		private BigInteger temp;
-
+		private List<Integer> tempStack;
+		private int temp;
+		private boolean flag=false;
 		
 		PowerMod(int main, int idx) {
 			super();
@@ -126,24 +129,57 @@ public class Rhinox {
 		}				
 		
 		int calculate(int code) {
-			this.temp = new BigInteger("1");//reset before use!!
+			tempStack = new ArrayList<>();
 			this.factor = code % main;
+			int aftermath;
 			
 			idx.chars().forEach(this::stacking);//refresh temp
 			
-//			return (int) (temp % main); 
-			BigInteger mainBig = new BigInteger(String.valueOf(main));
-			return temp.mod(mainBig).intValue();
+			tempStack = reducing(tempStack, main);
+			aftermath = tempStack.get(0).intValue();
+			
+			if(aftermath <= Long.MAX_VALUE && aftermath >= 0) {
+				return (int) (aftermath % main);
+			} else {
+				System.out.println("big temp!");
+				return -1;
+			}
+			
+			
 		}
 		
 		void stacking(int e) {
-//			if(e == '1') temp *= factor; 
-			if(e == '1') temp = temp.multiply(new BigInteger(String.valueOf(factor)));
+			if(e == '1') tempStack.add(factor); //temp *= factor; 
 			
 			if(factor > main/2) factor = main - factor; //reduce memory load
+			
 		    factor = (factor * factor) % main;
 		}
 		
+		List<Integer> reducing(List<Integer> fList, int base){
+			List<Integer> result = new ArrayList<>();
+			temp = 1;
+			
+			fList.stream()
+				.sorted() //0-9
+				.forEach(it -> {
+					temp *= it.intValue();
+	
+					if(temp >= base) {
+						result.add(temp%base);
+						temp = 1;
+				}
+			});
+			result.add(temp%base);//could be redundant 1
+			
+			if(result.size() > 1) {
+				return reducing(result,base);
+			} else {
+				result.set(0, result.get(0)%base);
+				return result;
+			}
+			
+		}
 		
 	}
 	
