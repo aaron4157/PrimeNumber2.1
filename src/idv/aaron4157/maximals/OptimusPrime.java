@@ -32,7 +32,7 @@ public class OptimusPrime {
 			mkFile(104730);	
 		}
 		pCache = loadBuffer(1024);
-		System.out.println("Initialized.");
+		System.out.println("Commander initialized.");
 	}
 	/**
 	 * CORE: Generate a prime list ~ given upper bound 
@@ -188,15 +188,26 @@ public class OptimusPrime {
 	 * add constraints to strengthen the algorithm 
 	 * */
 	public int[] lottery() {
-		int p1=0, p2=0, bound = pCache.length -1;
-		bound = 30; //for demonstration purpose...
+		int p1=0, p2=0, bound, check=1;
+		bound = 80; // about 54 -> 80 primes less than √65536
+//		pCache = loadBuffer(59_392);
 		Random generator = new SecureRandom(); //RECOMMANDED random generator
 		//bound = 128, support basic Latin
 		//bound = 65536, support all Unicodes
-		while( !(p1 > 2 && 2 * p1 < p2 && p1 * p2 >= 128) ) {
+		while(!(p1 > 2 && 2 * p1 < p2 && p1 * p2 >= 59_392 && p1 * p2 < 65_536) ) {
 			p1 = pCache[generator.nextInt(bound)];
-			p2 = pCache[generator.nextInt(bound)];						
+			p2 = pCache[generator.nextInt(bound)];
+			
+			check++;
+			if(check>= bound) {
+				System.out.println("no solution!!");
+				p1 = p2 = 0;
+				break;
+			}
+			
 		}
+		
+		
 		return new int[] {p1, p2};
 	}
 

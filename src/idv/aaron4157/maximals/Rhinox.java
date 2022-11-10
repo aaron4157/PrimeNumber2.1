@@ -16,10 +16,12 @@ import java.util.stream.IntStream;
 public class Rhinox {
 	private OptimusPrime commander;
 	//Default key pairs, support some Latin B-extensions
-	private int[] privateKey = new int[] {497,269}; //example 89*269%132 = 1
-	private int[] publicKey = new int[] {497,89}; //example 497 = 7*71; Eu =6*70= 140; (497, 89) = 1
+	private int[] privateKey = new int[] {68681,31937}; //example 89*269%132 = 1
+	private int[] publicKey = new int[] {68681,3809}; //example 497 = 7*71; Eu =6*70= 140; (497, 89) = 1
 	private StringBuilder cheetor;
-		
+	// try pri:[68681,31937], pub:[68681,3809]
+	// try pri:[62357,51389], pub:[62357,33569]
+	// try pri:[203,25], pub:[203,121]	
 
 	public int[] getPublicKey() {
 		return publicKey;
@@ -32,7 +34,9 @@ public class Rhinox {
 	}
 	
 	public void keyGen() {
+		System.out.println("keyGen...");
 		int[] pPairs = commander.lottery();
+		System.out.println("Seeds: "+ pPairs[0]+", "+pPairs[1]);
 		int mainNumber = pPairs[0] * pPairs[1];
 		int EulerCount = (pPairs[0] - 1) * (pPairs[1] - 1);
 		
@@ -83,8 +87,8 @@ public class Rhinox {
 		}
 		PowerMod dinobot = new PowerMod(main, idx);
 		
-		msg = Base64.getEncoder().encodeToString(msgBytes);
-		System.out.println("base64: "+msg);
+//		msg = Base64.getEncoder().encodeToString(msgBytes);
+//		System.out.println("base64: "+msg);
 		msg.chars().map(dinobot::calculate).forEach(e -> cheetor.append((char)e)); 
 		return cheetor.toString();		
 	}
@@ -101,13 +105,14 @@ public class Rhinox {
 		String recovered = cheetor.toString();
 		try {
 			msgBytes = recovered.getBytes();
-			recovered = new String( Base64.getDecoder().decode(msgBytes), "UTF-8");
+			recovered = new String( msgBytes, "UTF-8");
+//			recovered = new String( Base64.getDecoder().decode(msgBytes), "UTF-8");
 		} catch (UnsupportedEncodingException e1) {
 			// TODO Auto-generated catch block
 			recovered = "decode failed under this charset";
 		}
 		
-		System.out.println(recovered);
+		System.out.println("solved:"+recovered);
 	}
 	
 	
@@ -117,7 +122,7 @@ public class Rhinox {
 		
 		private int factor;
 		private List<Integer> tempStack;
-		private int temp;
+		private long temp;
 		private boolean flag=false;
 		
 		PowerMod(int main, int idx) {
@@ -131,12 +136,12 @@ public class Rhinox {
 		int calculate(int code) {
 			tempStack = new ArrayList<>();
 			this.factor = code % main;
-			int aftermath;
+			long aftermath;
 			
 			idx.chars().forEach(this::stacking);//refresh temp
 			
 			tempStack = reducing(tempStack, main);
-			aftermath = tempStack.get(0).intValue();
+			aftermath = tempStack.get(0).longValue();
 			
 			if(aftermath <= Long.MAX_VALUE && aftermath >= 0) {
 				return (int) (aftermath % main);
@@ -156,6 +161,7 @@ public class Rhinox {
 		    factor = (factor * factor) % main;
 		}
 		
+		// 陣列元素全積 再取模
 		List<Integer> reducing(List<Integer> fList, int base){
 			List<Integer> result = new ArrayList<>();
 			temp = 1;
@@ -163,14 +169,10 @@ public class Rhinox {
 			fList.stream()
 				.sorted() //0-9
 				.forEach(it -> {
-					temp *= it.intValue();
-	
-					if(temp >= base) {
-						result.add(temp%base);
-						temp = 1;
-				}
+					temp = (temp * it % base) ; 
+				
 			});
-			result.add(temp%base);//could be redundant 1
+			result.add((int)temp%base);//could be redundant 1
 			
 			if(result.size() > 1) {
 				return reducing(result,base);
